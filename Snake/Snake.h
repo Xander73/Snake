@@ -5,12 +5,18 @@
 
 #include <utility>
 #include <deque>
+#include <iostream>
 #include "windows.h"
 
 using namespace std;
 
+const int MIN_X = 0;
 const int MAX_X = 40;
+
+const int MIN_Y = 0;
 const int MAX_Y = 29;
+
+const int HEAD = 0;
 
 //==============================================
 void setPos(SHORT, SHORT);
@@ -30,13 +36,15 @@ class Snake
 public:
 	deque<Tile> snake;
 	Snake(Tile);
-	void move(int);
+	void moving(int);
 };
 
 //==============================================
 void makeScreen(Snake);
 //==============================================
 void speedOfTheGame(int);
+//==============================================
+bool checkCollision(Snake);
 //==============================================
 
 
