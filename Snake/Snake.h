@@ -34,17 +34,15 @@ Tile makeNewTile(pair<int,int>);
 class Snake
 {
 public:
-	deque<Tile> snake;
+	deque<Tile> snk;
 	Snake(Tile);
 	void moving(int);
 };
 
 //==============================================
-void makeScreen(Snake);
+void makeScreen(Snake&);
 //==============================================
-void speedOfTheGame(int);
-//==============================================
-bool checkCollision(Snake);
+bool checkCollision(const Snake&);
 //==============================================
 
 
