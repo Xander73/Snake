@@ -6,22 +6,41 @@
 
 using namespace std;
 
-
+//random numbers
+default_random_engine randomEngine(time(NULL));
+//==============================================
 void setPos(SHORT x, SHORT y)   //coordinate of cursor
 {
 	COORD coord { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 //==============================================
-void makeNewTail(pair<int, int> p)
+pair<int, int> randomCoord()
 {
-	Tile(p, 'O');
+	uniform_int_distribution<int> getNumX(1, 39);
+	int X = getNumX(randomEngine);
+	uniform_int_distribution<int> getNumY(1, 28);
+	int Y = getNumY(randomEngine);
+	return pair<int, int> (X, Y);
+}
+//==============================================
+pair<int,int> Snake::newTile()
+{
+	while (true) {
+		pair<int, int> temp(randomCoord());
+		for (auto a : snk) {
+			if (a.coord == temp) 
+				break;
+			else return temp;
+		}
+	}
 }
 //==============================================
 Snake::Snake(Tile hed) {
 	snk.resize(3); // snk initial size
 	for (int i = 0; i < snk.size(); ++i) 
 		snk[i].coord.second +=i;
+	randomBlock = newTile();
 }
 //==============================================
 void Snake::moving(int key)
@@ -141,7 +160,6 @@ void Snake::moving(int key)
 	}
 	}
 }
-
 //==============================================
 void makeScreen(Snake &snake )
 {
@@ -175,6 +193,9 @@ void makeScreen(Snake &snake )
 		else
 			cout << snake.snk[i].body;
 	}
+	setPos(snake.randomBlock.coord.first, snake.randomBlock.coord.second);
+	cout << snake.randomBlock.body;
+
 }
 //==============================================
 bool checkCollision(const Snake& s)
