@@ -24,23 +24,28 @@ pair<int, int> randomCoord()
 	return pair<int, int> (X, Y);
 }
 //==============================================
-pair<int,int> Snake::newTile()
+void Snake::newTile()
 {
+	pair<int, int> temp;
 	while (true) {
-		pair<int, int> temp(randomCoord());
+		 temp=randomCoord();
 		for (auto a : snk) {
 			if (a.coord == temp) 
 				break;
-			else return temp;
 		}
+		randomBlock = temp;
+		setPos(randomBlock.coord.first, randomBlock.coord.second);
+		cout << randomBlock.body;
+		return;
 	}
+	
 }
 //==============================================
 Snake::Snake(Tile hed) {
 	snk.resize(3); // snk initial size
 	for (int i = 0; i < snk.size(); ++i) 
 		snk[i].coord.second +=i;
-	randomBlock = newTile();
+	newTile();
 }
 //==============================================
 void Snake::moving(int key)
@@ -200,8 +205,8 @@ void makeScreen(Snake &snake )
 //==============================================
 bool checkCollision(const Snake& s)
 {
-	if (s.snk[HEAD].coord.first == (MIN_X+1) || s.snk[HEAD].coord.first == (MAX_X-1 ) ||		//frame 
-		s.snk[HEAD].coord.second == (MIN_Y+1 ) || s.snk[HEAD].coord.second == (MAX_Y-1 )) 	//collision
+	if (s.snk[HEAD].coord.first == (MIN_X) || s.snk[HEAD].coord.first == (MAX_X ) ||		//frame 
+		s.snk[HEAD].coord.second == (MIN_Y ) || s.snk[HEAD].coord.second == (MAX_Y-1 )) 	//collision
 		return false;
 	
 	for (int i=1; i<s.snk.size(); ++i)					//if i=0, the first iteration loop is true

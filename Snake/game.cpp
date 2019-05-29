@@ -7,7 +7,8 @@ using namespace std;
 void pushKey(int k, Snake s)
 {
 	setPos(45, 2);
-	cout << "Pressed key is - " << k;
+	char ch = k;
+	cout << "Pressed key is - " << k << " : char - " << ch;
 	setPos(45, 4);
 	cout << "Head:   " << s.snk[HEAD].coord.first << ", " << s.snk[HEAD].coord.second << endl;
 	setPos(45, 5);
@@ -16,19 +17,25 @@ void pushKey(int k, Snake s)
 
 int game()
 {
+
 	pair<int, int> p(20, 10);
 	Tile t;
-	Snake snk(t);
-	makeScreen(snk);
+	Snake snake(t);
+	makeScreen(snake);
 	char key=72;				//move up
 	int count = 0;
-	while (checkCollision(snk)) {						
+	while (checkCollision(snake)) {
+		Sleep(300);
 		if (_kbhit()) {
 			key = _getch();
-			pushKey(key, snk);
+			key = _getch();			//kill double sleep (300)
+			pushKey(key, snake);
 		}
-		snk.moving(key);
-		Sleep(550);				//game speed
+		snake.moving(key);	//game speed
+		if (snake.randomBlock.coord == snake.snk[HEAD].coord) {
+			snake.snk.push_back(Tile(snake.snk.back().coord.first - 1, snake.snk.back().coord.second - 1));		//add new part to the snake
+			snake.newTile();
+		}
 	}
 	return 1;
 }

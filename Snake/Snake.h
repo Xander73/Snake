@@ -33,6 +33,7 @@ public:
 	char body;
 	pair<int, int> coord;
 	Tile(pair<int, int> c = { 20,10 }, char ch = 'O') :coord(c), body(ch) {}
+	Tile(int a, int b, char ch = 'O') :coord(a,b), body(ch) {}
 };
 //==============================================
 class Snake
@@ -42,7 +43,7 @@ public:
 	Snake(Tile);
 	Tile randomBlock;
 	void moving(int);
-	pair<int,int> newTile();
+	void newTile();
 };
 //==============================================
 void makeScreen(Snake&);
